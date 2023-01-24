@@ -1,7 +1,9 @@
 import React, { createContext, useState } from 'react';
-import{ PRODUCTS } from "../products";
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export const ShopContext = createContext(null);
+const URI = 'http://localhost:3001/blogs/';
 
 const getDefaultCart = () => {
     let cart = {}
@@ -14,11 +16,21 @@ const getDefaultCart = () => {
 export const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
+    const[blogs, setBlogs] = useState([])
+    useEffect(() => {
+        getBlogs()
+    }, []);
+
+    const getBlogs = async () => {
+        const res = await axios.get(URI)
+        setBlogs(res.data)
+    }
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
             if (cartItems[item] > 0) {
-                let itemInfo = PRODUCTS.find((product) => product.id === Number(item));
+                let itemInfo = blogs.find((product) => product.id === Number(item));
                 totalAmount += cartItems[item] * itemInfo.price;
             }
         }
