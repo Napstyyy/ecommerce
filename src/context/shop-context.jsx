@@ -7,7 +7,7 @@ const URI = 'http://localhost:3001/blogs/';
 
 const getDefaultCart = () => {
     let cart = {}
-    for(let i = 1; i < 10 ; i++) {
+    for(let i = 1; i < 12 ; i++) {
         cart[i] = 0
     }
     return cart;
